@@ -23,6 +23,7 @@
             android:id="@+id/course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:hint="Enter Course Name"
             android:textSize="20sp" />
 
@@ -30,6 +31,7 @@
             android:id="@+id/professor_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:hint="Enter Professor Name"
             android:textSize="20sp" />
 
@@ -37,6 +39,7 @@
             android:id="@+id/room_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:hint="Enter Room Number"
             android:textSize="20sp" />
 
@@ -44,6 +47,7 @@
             android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:hint="Enter Time X:xAM-Y:yPM"
             android:textSize="20sp" />
 
@@ -51,8 +55,10 @@
             android:id="@+id/location_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:layout_marginBottom="10dp"
             android:hint="Lat: XX, Long: YY"
+            android:padding="5dp"
             android:textSize="20sp" />
     </LinearLayout>
 
