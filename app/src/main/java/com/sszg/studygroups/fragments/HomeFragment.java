@@ -82,7 +82,7 @@ public class HomeFragment extends Fragment implements SubjectAdapter.ItemClickLi
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "CLICKED ME ", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "CLICKED ME ", Toast.LENGTH_SHORT).show();
         Subject subject = subjectAdapter.getSubject(position);
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
 // using putExtra(String key, Serializable value) method

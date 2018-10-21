@@ -47,7 +47,8 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
             thumbnail = view.findViewById(R.id.thumbnail);
             overflow = view.findViewById(R.id.overflow);
             time = view.findViewById(R.id.time_text);
-            itemView.setOnClickListener(this);
+            view.setOnClickListener(this);
+            thumbnail.setOnClickListener(this);
         }
 
         @Override
