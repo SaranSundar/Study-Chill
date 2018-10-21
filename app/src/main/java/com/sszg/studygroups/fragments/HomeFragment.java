@@ -1,5 +1,6 @@
 package com.sszg.studygroups.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,12 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.sszg.studygroups.DetailsActivity;
 import com.sszg.studygroups.R;
 import com.sszg.studygroups.data.Subject;
 import com.sszg.studygroups.data.SubjectAdapter;
@@ -42,6 +45,7 @@ public class HomeFragment extends Fragment implements SubjectAdapter.ItemClickLi
     private void intializeRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.recycler_view);
         subjectAdapter = new SubjectAdapter(getActivity());
+        subjectAdapter.setClickListener(this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL));
@@ -78,6 +82,11 @@ public class HomeFragment extends Fragment implements SubjectAdapter.ItemClickLi
 
     @Override
     public void onItemClick(View view, int position) {
+        Toast.makeText(getActivity(), "CLICKED ME ", Toast.LENGTH_SHORT).show();
         Subject subject = subjectAdapter.getSubject(position);
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+// using putExtra(String key, Serializable value) method
+        intent.putExtra("serialize_data", subject);
+        startActivity(intent);
     }
 }

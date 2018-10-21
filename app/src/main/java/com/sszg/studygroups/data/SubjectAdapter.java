@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.sszg.studygroups.R;
 
@@ -37,7 +36,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
         this.mClickListener = itemClickListener;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title, count, time;
         public ImageView thumbnail, overflow;
 
@@ -48,6 +47,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
             thumbnail = view.findViewById(R.id.thumbnail);
             overflow = view.findViewById(R.id.overflow);
             time = view.findViewById(R.id.time_text);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -68,7 +68,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
         subjectList.add(subject);
     }
 
-    public Subject getSubject(int i){
+    public Subject getSubject(int i) {
         return subjectList.get(i);
     }
 
@@ -91,7 +91,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
         long diffHours = diff / (60 * 60 * 1000);
         holder.count.setText(String.valueOf("Taught by " + subject.getProfessorName()));
         if (diffHours > 0) {
-            holder.time.append(String.valueOf("Created " + diffHours + ":" + diffMinutes + " hour ago"));
+            if (diffMinutes >= 60) {
+                diffMinutes = diffMinutes % 60;
+            }
+            if (diffMinutes < 10) {
+                holder.time.append(String.valueOf("Created " + diffHours + ":0" + diffMinutes + " hour ago"));
+            } else {
+                holder.time.append(String.valueOf("Created " + diffHours + ":" + diffMinutes + " hour ago"));
+            }
         } else {
             holder.time.append(String.valueOf("Created " + diffMinutes + " min ago"));
         }

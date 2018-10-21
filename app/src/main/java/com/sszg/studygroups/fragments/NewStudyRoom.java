@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,6 +49,8 @@ public class NewStudyRoom extends Fragment {
     private ImageButton locationButton;
     private FusedLocationProviderClient client;
     private FirebaseFirestore db;
+    private double lastLong = -999;
+    private double lastLat = -999;
 
     @Nullable
     @Override
@@ -75,20 +76,7 @@ public class NewStudyRoom extends Fragment {
         locationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getActivity(), "GPS Permissions need to be enabled", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if (location != null) {
-                            locationText.setText(String.valueOf(" Lat: " + location.getLatitude() + " Long: " + location.getLongitude()));
-                        } else {
-                            Toast.makeText(getActivity(), "Not able to get GPS Coordinates", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                getGPSCoords();
             }
         });
         final Context context = getContext();
@@ -102,12 +90,32 @@ public class NewStudyRoom extends Fragment {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createStudyRoom();
+                v.setEnabled(false);
+                createStudyRoom(v);
             }
         });
     }
 
-    public void createStudyRoom() {
+    public void getGPSCoords() {
+        if (ActivityCompat.checkSelfPermission(getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(getActivity(), "GPS Permissions need to be enabled", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        client.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    lastLat = location.getLatitude();
+                    lastLong = location.getLongitude();
+                    locationText.setText(String.valueOf(" Lat: " + location.getLatitude() + " Long: " + location.getLongitude()));
+                } else {
+                    Toast.makeText(getActivity(), "Not able to get GPS Coordinates", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void createStudyRoom(final View v) {
         profileURL.buildDrawingCache();
         Bitmap bitmap = profileURL.getDrawingCache();
         String base64URI = getEncoded64ImageStringFromBitmap(bitmap);
@@ -116,6 +124,8 @@ public class NewStudyRoom extends Fragment {
         String roomNumber = this.roomNumber.getText().toString();
         String time = this.time.getText().toString();
         final Subject subject = new Subject(profesorName, courseName, roomNumber, time, base64URI);
+        subject.setLongitude(lastLong);
+        subject.setLatitude(lastLat);
         db.collection("studyrooms").add(subject).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
@@ -128,12 +138,14 @@ public class NewStudyRoom extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "Created New Study Room", Toast.LENGTH_SHORT).show();
+                        v.setEnabled(true);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getActivity(), "Error Creating New Study Room", Toast.LENGTH_SHORT).show();
                         System.out.println("FAILED CAUSE: " + e.toString());
+                        v.setEnabled(true);
                     }
                 });
             }
@@ -142,6 +154,7 @@ public class NewStudyRoom extends Fragment {
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getActivity(), "Error Creating New Study Room", Toast.LENGTH_SHORT).show();
                 System.out.println("FAILED CAUSE: " + e.toString());
+                v.setEnabled(true);
             }
         });
     }

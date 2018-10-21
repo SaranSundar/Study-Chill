@@ -2,12 +2,30 @@ package com.sszg.studygroups.data;
 
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Subject {
+public class Subject implements Serializable {
     private String professorName, courseName, roomNumber, time, profileURL, UID;
+    private double longitude, latitude;
     @ServerTimestamp
     private Date timestamp;
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     public Subject() {
     }
