@@ -44,7 +44,7 @@ import static android.app.Activity.RESULT_OK;
 public class NewStudyRoom extends Fragment {
     private TextView locationText;
     private ImageView profileURL;
-    private Button create;
+    private Button create, autofill;
     private EditText professorName, courseName, roomNumber, time;
     private ImageButton locationButton;
     private FusedLocationProviderClient client;
@@ -63,6 +63,7 @@ public class NewStudyRoom extends Fragment {
         roomNumber = view.findViewById(R.id.room_number);
         time = view.findViewById(R.id.time);
         profileURL = view.findViewById(R.id.profile_url);
+        autofill = view.findViewById(R.id.autofill);
         create = view.findViewById(R.id.create);
         db = FirebaseFirestore.getInstance();
         return view;
@@ -92,6 +93,15 @@ public class NewStudyRoom extends Fragment {
             public void onClick(View v) {
                 v.setEnabled(false);
                 createStudyRoom(v);
+            }
+        });
+        autofill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                professorName.setText(String.valueOf("Martin Ashwell"));
+                courseName.setText(String.valueOf("Home Economics"));
+                roomNumber.setText(String.valueOf("JO 2.34"));
+                time.setText(String.valueOf("9AM-11AM"));
             }
         });
     }

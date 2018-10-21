@@ -4,12 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="35dp"
+        android:id="@+id/autofill"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="#0044ff"
+        android:text="A"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/profile_url"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
         android:background="@drawable/avatar"
         android:scaleType="centerCrop" />
 
@@ -75,7 +86,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:background="#00a6f2"
         android:padding="13dp"
         android:text="CREATE"
