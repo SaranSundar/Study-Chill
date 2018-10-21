@@ -1,7 +1,16 @@
 package com.sszg.studygroups.data;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
+
 public class Subject {
-    private String professorName, courseName, roomNumber, time, profileURL;
+    private String professorName, courseName, roomNumber, time, profileURL, UID;
+    @ServerTimestamp
+    private Date timestamp;
+
+    public Subject() {
+    }
 
     public Subject(String professorName, String className, String roomNumber, String time, String profileURL) {
         this.professorName = professorName;
@@ -9,6 +18,22 @@ public class Subject {
         this.roomNumber = roomNumber;
         this.time = time;
         this.profileURL = profileURL;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 
     public String getProfileURL() {

@@ -9,7 +9,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/avatar"
         android:scaleType="centerCrop" />
 
@@ -71,6 +71,7 @@
         android:background="@drawable/locate" />
 
     <Button
+        android:id="@+id/create"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

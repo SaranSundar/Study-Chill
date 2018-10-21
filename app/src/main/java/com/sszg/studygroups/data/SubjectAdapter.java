@@ -1,9 +1,12 @@
 package com.sszg.studygroups.data;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.sszg.studygroups.R;
 
 import java.util.ArrayList;
@@ -62,7 +64,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
         holder.count.setText(String.valueOf("Taught by " + subject.getProfessorName()));
 
         // loading album cover using Glide library
-        Glide.with(mContext).load(subject.getProfileURL()).into(holder.thumbnail);
+        //Glide.with(mContext).load(subject.getProfileURL()).into(holder.thumbnail);
+        Bitmap image = base64ToBitmap(subject.getProfileURL());
+        holder.thumbnail.setImageBitmap(image);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +74,12 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
                 showPopupMenu(holder.overflow);
             }
         });
+    }
+
+    public Bitmap base64ToBitmap(String base64String) {
+        byte[] decodedString = Base64.decode(base64String.getBytes(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
     }
 
     /**
