@@ -46,10 +46,10 @@ public class DetailsActivity extends AppCompatActivity {
 
     public void fillSubject(final Subject subject) {
         locationText.setText(String.valueOf(" Lat: " + subject.getLatitude() + " Long: " + subject.getLongitude()));
-        professorName.setText(subject.getProfessorName());
-        courseName.setText(subject.getCourseName());
-        roomNumber.setText(subject.getRoomNumber());
-        time.setText(subject.getTime());
+        professorName.setText(String.valueOf("Professor : " + subject.getProfessorName()));
+        courseName.setText(String.valueOf("Class Name : " + subject.getCourseName()));
+        roomNumber.setText(String.valueOf("Room Number: " + subject.getRoomNumber()));
+        time.setText(String.valueOf("Time: " + subject.getTime()));
         Bitmap image = base64ToBitmap(subject.getProfileURL());
         profileURL.setImageBitmap(image);
         returnBack.setOnClickListener(new View.OnClickListener() {
