@@ -139,6 +139,7 @@ public class NewStudyRoom extends Fragment {
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "Created New Study Room", Toast.LENGTH_SHORT).show();
                         v.setEnabled(true);
+                        getActivity().finish();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override

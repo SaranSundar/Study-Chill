@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.sszg.studygroups.DetailsActivity;
@@ -59,24 +60,22 @@ public class HomeFragment extends Fragment implements SubjectAdapter.ItemClickLi
         //subjectAdapter.addSubject(null);
         //subjectAdapter.notifyDataSetChanged();
         db = FirebaseFirestore.getInstance();
-        db.collection("studyrooms")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Subject subject = document.toObject(Subject.class);
-                                subjectAdapter.addSubject(subject);
-                                subjectAdapter.notifyDataSetChanged();
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                System.out.println("SUBJECT DATE IS " + subject.getTimestamp().toString());
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
+        db.collection("studyrooms").orderBy("timestamp", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Subject subject = document.toObject(Subject.class);
+                        subjectAdapter.addSubject(subject);
+                        subjectAdapter.notifyDataSetChanged();
+                        Log.d(TAG, document.getId() + " => " + document.getData());
+                        System.out.println("SUBJECT DATE IS " + subject.getTimestamp().toString());
                     }
-                });
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
 
     }
 
