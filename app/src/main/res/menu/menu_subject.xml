@@ -2,10 +2,10 @@
     <item
         android:id="@+id/action_add_favourite"
         android:orderInCategory="100"
-        android:title="Do something" />
+        android:title="Subscribe" />
 
     <item
         android:id="@+id/action_play_next"
         android:orderInCategory="101"
-        android:title="Do something" />
+        android:title="Unsubscribe" />
 </menu>

@@ -3,6 +3,7 @@
     package="com.sszg.studygroups">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -25,10 +26,11 @@
         </activity>
         <activity
             android:name=".FragmentContainer"
-            android:label="@string/title_activity_home_screen"></activity>
+            android:label="@string/title_activity_home_screen" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
+        <activity android:name=".DetailsActivity"></activity>
     </application>
 
 </manifest>

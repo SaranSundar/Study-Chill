@@ -25,7 +25,7 @@ import com.sszg.studygroups.data.SubjectAdapter;
 import static android.support.constraint.Constraints.TAG;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements SubjectAdapter.ItemClickListener {
     private RecyclerView recyclerView;
     private SubjectAdapter subjectAdapter;
     private FirebaseFirestore db;
@@ -74,5 +74,10 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Subject subject = subjectAdapter.getSubject(position);
     }
 }

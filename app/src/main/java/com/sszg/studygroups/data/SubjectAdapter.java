@@ -19,15 +19,26 @@ import android.widget.Toast;
 import com.sszg.studygroups.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<Subject> subjectList;
+    private ItemClickListener mClickListener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, count;
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    // allows clicks events to be caught
+    public void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public TextView title, count, time;
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
@@ -36,6 +47,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
             count = view.findViewById(R.id.count);
             thumbnail = view.findViewById(R.id.thumbnail);
             overflow = view.findViewById(R.id.overflow);
+            time = view.findViewById(R.id.time_text);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) {
+                mClickListener.onItemClick(view, getAdapterPosition());
+            }
         }
     }
 
@@ -47,6 +66,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
 
     public void addSubject(Subject subject) {
         subjectList.add(subject);
+    }
+
+    public Subject getSubject(int i){
+        return subjectList.get(i);
     }
 
     @Override
@@ -61,7 +84,17 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         Subject subject = subjectList.get(position);
         holder.title.setText(subject.getCourseName());
+        Date currentTime = new Date();
+        long diff = currentTime.getTime() - subject.getTimestamp().getTime();
+        long diffSeconds = diff / 1000;
+        long diffMinutes = diff / (60 * 1000);
+        long diffHours = diff / (60 * 60 * 1000);
         holder.count.setText(String.valueOf("Taught by " + subject.getProfessorName()));
+        if (diffHours > 0) {
+            holder.time.append(String.valueOf("Created " + diffHours + ":" + diffMinutes + " hour ago"));
+        } else {
+            holder.time.append(String.valueOf("Created " + diffMinutes + " min ago"));
+        }
 
         // loading album cover using Glide library
         //Glide.with(mContext).load(subject.getProfileURL()).into(holder.thumbnail);
@@ -106,10 +139,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.MyViewHo
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
                 case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
                     return true;
                 default:
             }
